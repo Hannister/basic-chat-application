@@ -1,1 +1,42 @@
-<form-container title="Login"> </form-container>
+<form-container title="Sign In">
+  <form [formGroup]="form" (submit)="login()" class="form">
+    <mat-form-field class="form-field">
+      <mat-label>Email</mat-label>
+      <input
+        type="email"
+        matInput
+        required
+        formControlName="email"
+        [errorStateMatcher]="matcher"
+        placeholder="Ex. pat@example.com"
+      />
+      @if (form.controls['email'].hasError('email') &&
+      !form.controls['email'].hasError('required')) {
+      <mat-error>Please enter a valid email address</mat-error>
+      } @if (form.controls['email'].hasError('required')) {
+      <mat-error>Email is <strong>required</strong></mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field class="form-field">
+      <mat-label>Password</mat-label>
+      <input
+        type="password"
+        matInput
+        formControlName="password"
+        placeholder="password"
+        required
+      />
+      @if (form.controls['password'].hasError('minlength')) {
+      <mat-error>Password is too short</mat-error>
+      } @if (form.controls['password'].hasError('required')) {
+      <mat-error>Password is <strong>required</strong></mat-error>
+      }
+    </mat-form-field>
+    <button [disabled]="form.invalid" mat-raised-button color="primary">
+      Sign In
+    </button>
+    <a routerLink="/signup" class="mat-caption goto-link"
+      >Don't have an account? Go to signup</a
+    >
+  </form>
+</form-container>

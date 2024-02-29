@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "target": "basic-chat-application",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}
