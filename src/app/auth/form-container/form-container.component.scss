@@ -1,0 +1,20 @@
+:host {
+  max-width: 550px;
+  display: block;
+  margin: 0 auto;
+}
+.form-container{
+  padding: 25px;
+  background: white;
+  border-radius: 10px;
+
+
+  .heading {
+    margin-bottom: 20px;
+  }
+
+  .form-conent{
+    padding: 20px;
+    box-sizing: border-box;
+  }
+}
