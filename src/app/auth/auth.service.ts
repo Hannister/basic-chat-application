@@ -1,16 +1,39 @@
 import { Injectable } from '@angular/core';
+import { LoginAuthForm, SignInAuthForm } from './authForm';
+import { BehaviorSubject, from, switchMap } from 'rxjs';
+import {
+  Auth,
+  authState,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from '@angular/fire/auth';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor() {}
+  private authState = new BehaviorSubject<object | null>(null);
+  readonly isLoggedIn$ = authState(this.auth);
 
-  signUp(userName: string, email: string, password: string) {
-    console.log(userName, email, password);
+  constructor(private auth: Auth, private http: HttpClient) {}
+
+  getUser() {
+    return this.auth.currentUser;
   }
 
-  login(email: string, password: string) {
-    console.log(email, password);
+  signup({ email, password, displayName }: SignInAuthForm) {
+    return from(
+      createUserWithEmailAndPassword(this.auth, email, password)
+    ).pipe(switchMap(({ user }) => updateProfile(user, { displayName })));
+  }
+
+  login({ email, password }: LoginAuthForm) {
+    return from(signInWithEmailAndPassword(this.auth, email, password));
+  }
+
+  signOut() {
+    return from(this.auth.signOut());
   }
 }

@@ -1,6 +1,21 @@
+<p>
+  <mat-toolbar color="primary">
+    <span>My Basic Chant App</span>
+    <span class="header-spacer"></span>
+    <ng-container *ngIf="auth.isLoggedIn$ | async as user; else authButtons">
+      <span>User {{ user?.displayName }} is logged in</span>
+      <button mat-button (click)="signOut()">Sign Out</button></ng-container
+    >
+  </mat-toolbar>
+</p>
 <main class="content mat-app-background">
   <br />
   <br />
   <br />
   <router-outlet></router-outlet>
 </main>
+
+<ng-template #authButtons>
+  <a routerLink="/login" routerLinkActive="active" mat-button>Signin</a>
+  <a routerLink="/signup" routerLinkActive="active" mat-button>Signup</a>
+</ng-template>

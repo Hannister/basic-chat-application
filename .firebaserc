@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "basic-chat-application-58fbd": {
+      "hosting": {
+        "basic-chat-application": [
+          "basic-chat-application-58fbd"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "basic-chat-application-58fbd"
+  }
+}

@@ -1,4 +1,20 @@
-.content{
-  height: 100vh;
-  width: 100vw;
+p{
+  margin: 0;
+}
+.header-spacer {
+  flex: 1 1 auto;
+}
+
+.content {
+  min-height: calc(100vh - 64px);
+  padding: 25px 15px;
+  box-sizing: border-box;
+}
+
+.active {
+  border: 1px solid white;
+}
+
+button{
+  font-size: 20px;
 }
