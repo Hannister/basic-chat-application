@@ -27,7 +27,11 @@ export class SignupComponent implements OnInit {
   signup() {
     this.auth.signup(this.form.value).subscribe({
       next: () => this.router.navigate(['chat']),
-      error: (error) => this.snackbar.open(error.message),
+      error: (error) => {
+        this.snackbar.open(error.message, '', {
+          duration: 3000,
+        });
+      },
     });
   }
 }
