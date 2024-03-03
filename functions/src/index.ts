@@ -40,10 +40,30 @@ export const createStreamToken = onRequest((request: any, response: any) => {
     } else {
       try {
         const token = await serverStreamClient.createToken(user.uid);
-        response.status(200).send({ token: token });
+        response.status(200).send({ token });
       } catch (error) {
         throw new HttpsError('aborted', 'Could not get Stream user');
       }
     }
   });
 });
+export const revokeStreamUserToken = onRequest(
+  (request: any, response: any) => {
+    cors(request, response, async () => {
+      const { user } = request.body;
+      if (!user) {
+        throw new HttpsError(
+          'failed-precondition',
+          'The function must be called ' + 'while authenticated.'
+        );
+      } else {
+        try {
+          await serverStreamClient.revokeUserToken(user.uid);
+          response.status(200).send({ message: 'User sighed out' });
+        } catch (error) {
+          throw new HttpsError('aborted', 'Could not get Stream user');
+        }
+      }
+    });
+  }
+);

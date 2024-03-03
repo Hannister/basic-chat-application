@@ -19,7 +19,11 @@ export class AuthService {
   private authState = new BehaviorSubject<object | null>(null);
   readonly isLoggedIn$ = authState(this.auth);
 
-  constructor(private auth: Auth, private http: HttpClient) {}
+  constructor(
+    private auth: Auth,
+    private http: HttpClient,
+    private chatService: ChatClientService
+  ) {}
 
   getCurrentUser() {
     return this.auth.currentUser!;
@@ -53,6 +57,13 @@ export class AuthService {
   }
 
   signOut() {
-    return from(this.auth.signOut());
+    const user = this.auth.currentUser;
+    return from(this.auth.signOut()).pipe(
+      switchMap(() =>
+        this.http.post(`${environment.apiUrlRevokeToken}`, {
+          user,
+        })
+      )
+    );
   }
 }

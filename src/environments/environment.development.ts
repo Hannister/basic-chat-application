@@ -10,6 +10,7 @@ export const environment = {
   },
   apiUrlCreateUser: 'https://createstreamuser-hwawrbuilq-uc.a.run.app',
   apiUrlCreateToken: 'https://createstreamtoken-hwawrbuilq-uc.a.run.app',
+  apiUrlRevokeToken: 'https://revokestreamusertoken-hwawrbuilq-uc.a.run.app',
   stream: {
     key: 'gxeu78h47d2q',
   },
