@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ChatRoutes } from './chat.routing';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [],
-  imports: [CommonModule, ChatRoutes],
+  imports: [ChatRoutes, TranslateModule.forChild()],
 })
 export class ChatModule {}

@@ -32,7 +32,9 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['chat']);
       },
       error: (error) => {
-        this.snackbar.open(error.message);
+        this.snackbar.open(error.message, '', {
+          duration: 3000,
+        });
       },
     });
   }

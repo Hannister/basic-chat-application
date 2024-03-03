@@ -1,1 +1,23 @@
-<p>chat works!</p>
+<new-channel (saved)="onCreate($event)"></new-channel>
+
+<section class="chat" *ngIf="chatIsReady$ | async; else notReady">
+  <div id="root">
+    <stream-channel-list></stream-channel-list>
+    <stream-channel>
+      <stream-channel-header></stream-channel-header>
+      <stream-message-list></stream-message-list>
+      <stream-notification-list></stream-notification-list>
+      <stream-message-input></stream-message-input>
+    </stream-channel>
+  </div>
+</section>
+
+<ng-template #notReady>
+  <div class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
+
+<ng-template #channelActionTemplate let-channel="channel">
+  <invite-button [channel]="channel"></invite-button>
+</ng-template>

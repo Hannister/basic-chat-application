@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatButtonModule,
     RouterModule,
     MatSnackBarModule,
+    HttpClientModule,
   ],
   declarations: [LoginComponent, SignupComponent, FormContainerComponent],
   exports: [LoginComponent, SignupComponent, FormContainerComponent],
