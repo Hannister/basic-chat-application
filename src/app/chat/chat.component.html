@@ -13,5 +13,11 @@
 </section>
 
 <ng-template #notReady>
-  <p>chat not working...</p>
+  <div class="spinner">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
+
+<ng-template #channelActionTemplate let-channel="channel">
+  <invite-button [channel]="channel"></invite-button>
 </ng-template>

@@ -1,4 +1,11 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+} from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import {
   ChatClientService,
@@ -6,12 +13,16 @@ import {
   StreamI18nService,
   StreamAutocompleteTextareaModule,
   StreamChatModule,
+  ChannelActionsContext,
+  CustomTemplatesService,
 } from 'stream-chat-angular';
 import { environment } from '../../environments/environment.development';
 import { AuthService } from '../auth/auth.service';
 import { Observable, catchError, from, map, of, switchMap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { NewChannelComponent } from './new-channel/new-channel.component';
+import { InviteButtonComponent } from './invite-button/invite-button.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-chat',
@@ -24,17 +35,29 @@ import { NewChannelComponent } from './new-channel/new-channel.component';
     StreamAutocompleteTextareaModule,
     StreamChatModule,
     NewChannelComponent,
+    InviteButtonComponent,
+    MatProgressSpinnerModule,
   ],
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewInit {
   chatIsReady$!: Observable<boolean>;
+  @ViewChild('channelActionTemplate')
+  private channelActionTemplate!: TemplateRef<ChannelActionsContext>;
 
   constructor(
     private chatService: ChatClientService,
     private channelService: ChannelService,
     private streamI18nService: StreamI18nService,
-    private auth: AuthService
+    private auth: AuthService,
+    private customTemplatesService: CustomTemplatesService
   ) {}
+
+  ngAfterViewInit(): void {
+    this.customTemplatesService.channelActionsTemplate$.next(
+      this.channelActionTemplate
+    );
+  }
+
   ngOnInit(): void {
     this.chatIsReady$ = this.auth.getStreamToken().pipe(
       switchMap((userToken) =>
@@ -50,8 +73,7 @@ export class ChatComponent implements OnInit {
           members: { $in: [this.auth.getCurrentUser().uid] },
         })
       ),
-      map(() => true),
-      catchError(() => of(false))
+      map(() => true)
     );
 
     this.streamI18nService.setTranslation();

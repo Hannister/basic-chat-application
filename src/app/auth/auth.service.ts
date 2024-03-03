@@ -10,6 +10,7 @@ import {
 } from '@angular/fire/auth';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
+import { ChatClientService } from 'stream-chat-angular';
 
 @Injectable({
   providedIn: 'root',

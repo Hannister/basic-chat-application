@@ -1,0 +1,24 @@
+<button mat-stroked-button color="primary" (click)="showDialog = true">
+  Add users
+</button>
+<stream-modal [(isOpen)]="showDialog">
+  <mat-form-field class="example-full-width">
+    <mat-label>Search for users</mat-label>
+    <input
+      type="text"
+      placeholder="Start to type"
+      matInput
+      [formControl]="userSearchField"
+      [matAutocomplete]="auto"
+    />
+    <mat-autocomplete
+      (optionSelected)="addToChat($event)"
+      autoActiveFirstOption
+      #auto="matAutocomplete"
+    >
+      @for (user of availableUsers$ | async; track user) {
+      <mat-option [value]="user.id">{{ user.name }}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+</stream-modal>
