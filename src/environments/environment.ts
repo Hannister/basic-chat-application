@@ -8,5 +8,9 @@ export const environment = {
     messagingSenderId: '13566651780',
     measurementId: 'G-K6CYYMP86N',
   },
-  apiUrl: 'https://createstreamuser-hwawrbuilq-uc.a.run.app',
+  apiUrlCreateUser: 'https://createstreamuser-hwawrbuilq-uc.a.run.app',
+  apiUrlCreateToken: 'https://createstreamtoken-hwawrbuilq-uc.a.run.app',
+  stream: {
+    key: 'gxeu78h47d2q',
+  },
 };

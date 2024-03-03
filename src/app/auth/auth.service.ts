@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LoginAuthForm, SignInAuthForm } from './authForm';
-import { BehaviorSubject, forkJoin, from, switchMap } from 'rxjs';
+import { BehaviorSubject, forkJoin, from, map, pluck, switchMap } from 'rxjs';
 import {
   Auth,
   authState,
@@ -20,8 +20,16 @@ export class AuthService {
 
   constructor(private auth: Auth, private http: HttpClient) {}
 
-  getUser() {
-    return this.auth.currentUser;
+  getCurrentUser() {
+    return this.auth.currentUser!;
+  }
+
+  getStreamToken() {
+    return this.http
+      .post<{ token: string }>(`${environment.apiUrlCreateToken}`, {
+        user: this.getCurrentUser(),
+      })
+      .pipe(map((x) => x?.token));
   }
 
   signup({ email, password, displayName }: SignInAuthForm) {
@@ -31,7 +39,7 @@ export class AuthService {
       switchMap(({ user }) =>
         forkJoin([
           updateProfile(user, { displayName }),
-          this.http.post(`${environment.apiUrl}/createStreamUser`, {
+          this.http.post(`${environment.apiUrlCreateUser}`, {
             user: { ...user, displayName },
           }),
         ])

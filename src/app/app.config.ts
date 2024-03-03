@@ -6,9 +6,11 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { provideHttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment.development';
+import { TranslateModule } from '@ngx-translate/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    importProvidersFrom(TranslateModule.forRoot()),
     provideRouter(routes),
     provideAnimations(),
     provideHttpClient(),

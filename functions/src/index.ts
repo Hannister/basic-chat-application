@@ -10,7 +10,7 @@ const serverStreamClient = StreamChat.getInstance(
 
 admin.initializeApp();
 
-export const createStreamUser = onRequest((request, response) => {
+export const createStreamUser = onRequest((request: any, response: any) => {
   cors(request, response, async () => {
     const { user } = request.body;
     if (!user) {
@@ -25,6 +25,24 @@ export const createStreamUser = onRequest((request, response) => {
         response.status(200).send({ message: 'User created' });
       } catch (error) {
         throw new HttpsError('aborted', 'Could not create Stream user');
+      }
+    }
+  });
+});
+export const createStreamToken = onRequest((request: any, response: any) => {
+  cors(request, response, async () => {
+    const { user } = request.body;
+    if (!user) {
+      throw new HttpsError(
+        'failed-precondition',
+        'The function must be called ' + 'while authenticated.'
+      );
+    } else {
+      try {
+        const token = await serverStreamClient.createToken(user.uid);
+        response.status(200).send({ token: token });
+      } catch (error) {
+        throw new HttpsError('aborted', 'Could not get Stream user');
       }
     }
   });
