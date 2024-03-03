@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import {
   ChatClientService,
@@ -9,15 +9,22 @@ import {
 } from 'stream-chat-angular';
 import { environment } from '../../environments/environment.development';
 import { AuthService } from '../auth/auth.service';
-import { Observable, catchError, map, of, switchMap } from 'rxjs';
+import { Observable, catchError, from, map, of, switchMap } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { NewChannelComponent } from './new-channel/new-channel.component';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [CommonModule],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss',
+  imports: [
+    CommonModule,
+    TranslateModule,
+    StreamAutocompleteTextareaModule,
+    StreamChatModule,
+    NewChannelComponent,
+  ],
 })
 export class ChatComponent implements OnInit {
   chatIsReady$!: Observable<boolean>;
@@ -48,5 +55,18 @@ export class ChatComponent implements OnInit {
     );
 
     this.streamI18nService.setTranslation();
+  }
+
+  onCreate(name: string) {
+    const dasherizedName = name.replace(/\s+/g, '-').toLowerCase();
+    const channel = this.chatService.chatClient.channel(
+      'messaging',
+      dasherizedName,
+      {
+        name: name,
+        members: [this.auth.getCurrentUser().uid],
+      }
+    );
+    from(channel.create());
   }
 }
